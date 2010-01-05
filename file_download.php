@@ -207,9 +207,14 @@
 	}
 
 	if ( null !== $t_local_disk_file ) {
-			header( 'Content-Type: ' . $t_content_type );
-			if ( false === stripos($t_content_type, 'image') ) {
-				http_content_disposition_header( $t_filename, $f_show_inline );
-			}
+		header( 'Content-Type: ' . $t_content_type );
+		if ( false === stripos($t_content_type, 'image') ) {
+			http_content_disposition_header( $t_filename, $f_show_inline );
+		}
+		if ( config_get( 'file_download_xsendfile_enabled' ) ) {
+			$t_xsendfile_header_name = config_get( 'file_download_xsendfile_header_name' );
+			header( $t_xsendfile_header_name . ': ' . $t_local_disk_file );
+		} else {
 			readfile( $t_local_disk_file );
+		}
 	}
