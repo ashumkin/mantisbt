@@ -99,10 +99,6 @@
 		}
 	}
 
-	$tpl_product_version_string = string_display_line( $tpl_product_version_string );
-	$tpl_target_version_string = string_display_line( $tpl_target_version_string );
-	$tpl_fixed_in_version_string = string_display_line( $tpl_fixed_in_version_string );
-
 	$tpl_bug_id = $f_bug_id;
 	$tpl_form_title = lang_get( 'bug_view_title' );
 	$tpl_wiki_link = config_get_global( 'wiki_enable' ) == ON ? 'wiki.php?id=' . $f_bug_id : '';
