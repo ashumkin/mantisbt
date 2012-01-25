@@ -1290,20 +1290,55 @@ function print_column_additional_information( $p_bug, $p_columns_target = COLUMN
 /**
  *
  * @param BugData $p_bug bug object
+ * @param string $p_version_field: version field name (one of "fixed_in_version", "target_version", "version")
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
  */
-function print_column_target_version( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
+function print_column_version_field( $p_bug, $p_version_field, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
 	echo '<td>';
 
 	# In case of a specific project, if the current user has no access to the field, then it would have been excluded from the
 	# list of columns to view.  In case of ALL_PROJECTS, then we need to check the access per row.
 	if( helper_get_current_project() != ALL_PROJECTS || access_has_project_level( config_get( 'roadmap_view_threshold' ), $p_bug->project_id ) ) {
-		echo string_display_line( $p_bug->target_version );
+		$t_version_id = version_get_id( $p_bug->$p_version_field, $p_bug->project_id );
+		echo prepare_version_string( $p_bug->project_id, $t_version_id, true );
 	}
 
 	echo '</td>';
+}
+
+/**
+ *
+ * @param BugData $p_bug bug object
+ * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+ * @return null
+ * @access public
+ */
+function print_column_target_version( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
+	print_column_version_field( $p_bug, 'target_version', $p_columns_target );
+}
+
+/**
+ *
+ * @param BugData $p_bug bug object
+ * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+ * @return null
+ * @access public
+ */
+function print_column_fixed_in_version( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
+	print_column_version_field( $p_bug, 'fixed_in_version', $p_columns_target );
+}
+
+/**
+ *
+ * @param BugData $p_bug bug object
+ * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+ * @return null
+ * @access public
+ */
+function print_column_version( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
+	print_column_version_field( $p_bug, 'version', $p_columns_target );
 }
 
 /**

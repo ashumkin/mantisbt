@@ -76,19 +76,27 @@ function prepare_user_name( $p_user_id ) {
  * @param integer $p_version_id  The version id.  If false then this method will return an empty string.
  * @return The formatted version string.
  */
-function prepare_version_string( $p_project_id, $p_version_id ) {
+function prepare_version_string( $p_project_id, $p_version_id, $use_link = false, $mark_resolved = true ) {
 	if ( $p_version_id === false ) {
 		return '';
 	}
 
 	$t_version_text = version_full_name( $p_version_id, /* showProject */ null, $p_project_id );
+	$t_version = version_get( $p_version_id );
+	$t_link = $t_version->released ? 'changelog' : 'roadmap';
+	if ( $mark_resolved ) {
+		$t_class = $t_version->released ? ' class="resolved"' : '';
+		if ( access_has_project_level( config_get( 'show_version_dates_threshold' ), $p_project_id ) ) {
+			$t_short_date_format = config_get( 'short_date_format' );
 
-	if ( access_has_project_level( config_get( 'show_version_dates_threshold' ), $p_project_id ) ) {
-		$t_short_date_format = config_get( 'short_date_format' );
-
-		$t_version = version_get( $p_version_id );
-		$t_version_text .= ' (' . date( $t_short_date_format, $t_version->date_order ) . ')';
+			$t_version_text .= ' (' . date( $t_short_date_format, $t_version->date_order ) . ')';
+		}
+		$t_version_text = string_display_line( $t_version_text);
 	}
 
-	return $t_version_text;	
+	if ( $use_link ) {
+		$t_version_text = "<a$t_class href=\"${t_link}_page.php?version_id=$t_version->id\">$t_version_text</a>";
+	}
+
+	return $t_version_text;
 }
