@@ -39,7 +39,13 @@ abstract class MantisCoreWikiPlugin extends MantisWikiPlugin {
 		return array(
 			'root_namespace' => config_get_global( 'wiki_root_namespace' ),
 			'engine_url' => config_get_global( 'wiki_engine_url' ),
+			'urlencode_function' => config_get_global( 'wiki_urlencode_function' , 'urlencode' )
 		);
+	}
+
+	function urlencode( $string ) {
+		$t_urlencode_function = plugin_config_get( 'urlencode_function' );
+		return $t_urlencode_function( $string );
 	}
 }
 
@@ -63,11 +69,11 @@ class MantisCoreDokuwikiPlugin extends MantisCoreWikiPlugin {
 
 		$t_namespace = plugin_config_get( 'root_namespace' );
 		if ( !is_blank( $t_namespace ) ) {
-			$t_base .= urlencode( $t_namespace ) . ':';
+			$t_base .= $this->urlencode( $t_namespace ) . ':';
 		}
 
 		if ( !is_null( $p_project_id ) && $p_project_id != ALL_PROJECTS ) {
-			$t_base .= urlencode( project_get_name( $p_project_id ) ) . ':';
+			$t_base .= $this->urlencode( project_get_name( $p_project_id ) ) . ':';
 		}
 		return $t_base;
 	}
@@ -99,9 +105,9 @@ class MantisCoreMediaWikiPlugin extends MantisCoreWikiPlugin {
 	function base_url( $p_project_id=null ) {
 		$t_base = plugin_config_get( 'engine_url' ) . 'index.php/';
 		if ( !is_null( $p_project_id ) && $p_project_id != ALL_PROJECTS ) {
-			$t_base .= urlencode( project_get_name( $p_project_id ) ) . ':';
+			$t_base .= $this->urlencode( project_get_name( $p_project_id ) ) . ':';
 		} else {
-			$t_base .= urlencode( plugin_config_get( 'root_namespace' ) );
+			$t_base .= $this->urlencode( plugin_config_get( 'root_namespace' ) );
 		}
 		return $t_base;
 	}
@@ -135,11 +141,11 @@ class MantisCoreTwikiPlugin extends MantisCoreWikiPlugin {
 
 		$t_namespace = plugin_config_get( 'root_namespace' );
 		if ( !is_blank( $t_namespace ) ) {
-			$t_base .= urlencode( $t_namespace ) . '/';
+			$t_base .= $this->urlencode( $t_namespace ) . '/';
 		}
 
 		if ( !is_null( $p_project_id ) && $p_project_id != ALL_PROJECTS ) {
-			$t_base .= urlencode( project_get_name( $p_project_id ) ) . '/';
+			$t_base .= $this->urlencode( project_get_name( $p_project_id ) ) . '/';
 		}
 		return $t_base;
 	}
@@ -173,11 +179,11 @@ class MantisCoreWikkaWikiPlugin extends MantisCoreWikiPlugin {
 
 		$t_namespace = ucfirst( plugin_config_get( 'root_namespace' ) );
 		if ( !is_blank( $t_namespace ) ) {
-			$t_base .= urlencode( $t_namespace );
+			$t_base .= $this->urlencode( $t_namespace );
 		}
 
 		if ( !is_null( $p_project_id ) && $p_project_id != ALL_PROJECTS ) {
-			$t_base .= urlencode( project_get_name( $p_project_id ) );
+			$t_base .= $this->urlencode( project_get_name( $p_project_id ) );
 		}
 		return $t_base;
 	}
@@ -209,9 +215,9 @@ class MantisCoreXwikiPlugin extends MantisCoreWikiPlugin {
 	function base_url( $p_project_id=null ) {
 		$t_base = plugin_config_get( 'engine_url' );
 		if ( !is_null( $p_project_id ) && $p_project_id != ALL_PROJECTS ) {
-			$t_base .= urlencode( project_get_name( $p_project_id ) ) . '/';
+			$t_base .= $this->urlencode( project_get_name( $p_project_id ) ) . '/';
 		} else {
-			$t_base .= urlencode( plugin_config_get( 'root_namespace' ) );
+			$t_base .= $this->urlencode( plugin_config_get( 'root_namespace' ) );
 		}
 		return $t_base;
 	}
