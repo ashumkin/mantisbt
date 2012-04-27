@@ -135,8 +135,6 @@
 	# Don't let IE second guess our content-type!
 	header( 'X-Content-Type-Options: nosniff' );
 
-	http_content_disposition_header( $t_filename, $f_show_inline );
-
 	header( 'Content-Length: ' . $v_filesize );
 
 	# If finfo is available (always true for PHP >= 5.3.0) we can use it to determine the MIME type of files
@@ -145,7 +143,7 @@
 	$t_content_type = $v_file_type;
 
 	$t_content_type_override = file_get_content_type_override ( $t_filename );
-
+	$t_local_disk_file = null;
 	# dump file content to the connection.
 	switch ( config_get( 'file_upload_method' ) ) {
 		case DISK:
@@ -163,9 +161,8 @@
 				if ( $t_content_type_override ) {
 					$t_content_type = $t_content_type_override;
 				}
-
-				header( 'Content-Type: ' . $t_content_type );
-				readfile( $t_local_disk_file );
+			} else {
+				$t_local_disk_file = null;
 			}
 			break;
 		case FTP:
@@ -188,9 +185,6 @@
 			if ( $t_content_type_override ) {
 				$t_content_type = $t_content_type_override;
 			}
-
-			header( 'Content-Type: ' . $t_content_type );
-			readfile( $t_local_disk_file );
 			break;
 		default:
 			if ( $finfo ) {
@@ -207,4 +201,12 @@
 
 			header( 'Content-Type: ' . $t_content_type );
 			echo $v_content;
+	}
+
+	if ( null !== $t_local_disk_file ) {
+			header( 'Content-Type: ' . $t_content_type );
+			if ( false === stripos($t_content_type, 'image') ) {
+				http_content_disposition_header( $t_filename, $f_show_inline );
+			}
+			readfile( $t_local_disk_file );
 	}
