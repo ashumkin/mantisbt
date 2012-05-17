@@ -807,6 +807,7 @@ function relationship_view_box( $p_bug_id ) {
 <br />
 
 <?php collapse_open( 'relationships' );?>
+<a name="relationships" />
 <table class="width100" cellspacing="1">
 <tr class="row-2" valign="top">
 	<td width="15%" class="form-title" colspan="2">
