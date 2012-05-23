@@ -217,7 +217,7 @@
 			$t_project_id = bug_get_field( $t_bug_id, 'project_id' );
 
 			if ( access_has_bug_level( config_get( 'update_bug_threshold' ), $t_bug_id ) ) {
-				if ( $f_fixed_in_version === '' || version_get_id( $f_fixed_in_version, $t_project_id ) !== false ) {
+				if ( $f_fixed_in_version === '' || ( version_get_all_rows( $t_project_id ) && version_get_id( $f_fixed_in_version, $t_project_id ) !== false ) ) {
 					/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
 					bug_set_field( $t_bug_id, 'fixed_in_version', $f_fixed_in_version );
 					helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
@@ -234,7 +234,7 @@
 			$t_project_id = bug_get_field( $t_bug_id, 'project_id' );
 
 			if ( access_has_bug_level( config_get( 'roadmap_update_threshold' ), $t_bug_id ) ) {
-				if ( $f_target_version === '' || version_get_id( $f_target_version, $t_project_id ) !== false ) {
+				if ( $f_target_version === '' || ( version_get_all_rows( $t_project_id ) && version_get_id( $f_target_version, $t_project_id ) !== false ) ) {
 					/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
 					bug_set_field( $t_bug_id, 'target_version', $f_target_version );
 					helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
