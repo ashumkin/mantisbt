@@ -630,10 +630,10 @@ function relationship_get_details( $p_bug_id, $p_relationship, $p_html = false, 
 
 	$t_relationship_info_html = $t_td . string_no_break( $t_relationship_descr ) . '&#160;</td>';
 	if( $p_html_preview == false ) {
-		$t_relationship_info_html .= '<td><a href="' . string_get_bug_view_url( $t_related_bug_id ) . '">' . string_display_line( bug_format_id( $t_related_bug_id ) ) . '</a></td>';
+		$t_relationship_info_html .= '<td>' . string_get_bug_view_link( $t_related_bug_id ) . '</td>';
 		$t_relationship_info_html .= '<td><span class="issue-status" title="' . string_attribute( $t_resolution_string ) . '">' . string_display_line( $t_status_string ) . '</span></td>';
 	} else {
-		$t_relationship_info_html .= $t_td . string_display_line( bug_format_id( $t_related_bug_id ) ) . '</td>';
+		$t_relationship_info_html .= $t_td . string_get_bug_view_link( $t_related_bug_id ) . '</td>';
 		$t_relationship_info_html .= $t_td . string_display_line( $t_status_string ) . '&#160;</td>';
 	}
 
