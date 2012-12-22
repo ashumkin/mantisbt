@@ -127,7 +127,7 @@ class ImportXml_Issue implements ImportXml_Interface {
 		}
 
 		// now save the new bug
-		$this->new_id_ = $this->newbug_->create();
+		$this->new_id_ = $this->newbug_->create( true );
 
 		//echo "\nnew bug: $this->new_id_\n";
 	}
