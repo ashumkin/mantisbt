@@ -740,6 +740,15 @@ function email_bugnote_add( $p_bug_id ) {
 }
 
 /**
+ * send notices when a new file added
+ * @param int $p_bug_id
+ * @return null
+ */
+function email_file_add( $p_bug_id ) {
+    email_generic( $p_bug_id, 'bugnote', 'email_notification_title_for_action_file_submitted' );
+}
+
+/**
  * send notices when a bug is RESOLVED
  * @param int $p_bug_id
  * @return null
