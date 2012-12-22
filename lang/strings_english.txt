@@ -370,6 +370,7 @@ $s_email_notification_title_for_action_sponsorship_updated = 'A sponsorship of t
 $s_email_notification_title_for_action_sponsorship_deleted = 'A sponsorship of the following issue was withdrawn.';
 
 $s_email_notification_title_for_action_bugnote_submitted = 'A NOTE has been added to this issue.';
+$s_email_notification_title_for_action_file_submitted = 'A FILE has been added to this issue.';
 $s_email_notification_title_for_action_duplicate_of_relationship_added = 'The following issue has been set as DUPLICATE OF issue %1$s.';
 $s_email_notification_title_for_action_has_duplicate_relationship_added = 'The issue %1$s has been set as DUPLICATE OF the following issue.';
 $s_email_notification_title_for_action_related_to_relationship_added = 'The following issue has been set as RELATED TO issue %1$s.';
@@ -444,7 +445,7 @@ $s_email_on_feedback = 'E-mail on Feedback';
 $s_email_on_resolved = 'E-mail on Resolved';
 $s_email_on_closed = 'E-mail on Closed';
 $s_email_on_reopened = 'E-mail on Reopened';
-$s_email_on_bugnote_added = 'E-mail on Note Added';
+$s_email_on_bugnote_added = 'E-mail on Note/File Added';
 $s_email_on_status_change = 'E-mail on Status Change';
 $s_email_on_priority_change = 'E-mail on Priority Change';
 $s_email_bugnote_limit = 'E-mail Notes Limit';

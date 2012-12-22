@@ -717,6 +717,9 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 
 		# log new bug
 		history_log_event_special( $p_bug_id, FILE_ADDED, $t_file_name );
+
+        # email notification
+        email_file_add( $p_bug_id );
 	}
 }
 
