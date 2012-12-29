@@ -31,6 +31,7 @@ $g_log_levels = array(
 	LOG_AJAX => 'ajax',
 	LOG_LDAP => 'ldap',
 	LOG_DATABASE => 'database',
+	LOG_ADODB => 'adodb',
 	LOG_SOAP => 'soap'
 );
 
@@ -99,3 +100,9 @@ function log_event( $p_level, $p_msg ) {
 		echo $t_php_event . PHP_EOL;
 	}
 }
+
+function log_adodb( $msg, $newline ) {
+	log_event( LOG_ADODB, $msg );
+}
+
+$ADODB_OUTP = log_adodb;
