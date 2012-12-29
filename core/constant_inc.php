@@ -501,6 +501,7 @@ define( 'LOG_AJAX',                     8 );  # logging for AJAX / XmlHttpReques
 define( 'LOG_LDAP',                     16 );  # logging for ldap
 define( 'LOG_DATABASE',                 32 );  # logging for ldap
 define( 'LOG_SOAP',                     64 );  # logging for SOAP
+define( 'LOG_ADODB',                    128 );  # logging for ADODB
 
 # COLUMNS_TARGET_*
 define( 'COLUMNS_TARGET_VIEW_PAGE', 1 );

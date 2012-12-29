@@ -631,6 +631,7 @@ function plugin_upgrade( $p_plugin ) {
 
 	global $g_db;
 	$t_dict = NewDataDictionary( $g_db );
+	$t_dict->debug = true;
 
 	$i = $t_schema_version + 1;
 	while( $i < count( $t_schema ) ) {
