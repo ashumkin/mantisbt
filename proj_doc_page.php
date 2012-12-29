@@ -107,7 +107,7 @@
 <tr valign="top" <?php echo helper_alternate_class( $i ) ?>>
 	<td>
 <?php
-		$t_href = '<a href="file_download.php?file_id='.$v_id.'&amp;type=doc">';
+		$t_href = '<a href="' . file_get_download_url( $v_id, 'doc' ) . '">';
 		echo $t_href;
 		print_file_icon( $v_filename );
 		echo '</a>&#160;' . $t_href . $v_title . '</a> (' . $v_filesize . lang_get( 'word_separator' ) . lang_get( 'bytes' ) . ')';
