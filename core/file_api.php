@@ -258,7 +258,6 @@ function file_get_visible_attachments( $p_bug_id ) {
 	$t_preview_text_ext = config_get( 'preview_text_extensions' );
 	$t_preview_image_ext = config_get( 'preview_image_extensions' );
 
-	$image_previewed = false;
 	for( $i = 0;$i < $t_attachments_count;$i++ ) {
 		$t_row = $t_attachment_rows[$i];
 
@@ -284,10 +283,6 @@ function file_get_visible_attachments( $p_bug_id ) {
 
 		if( $t_attachment['can_download'] ) {
 			$t_attachment['download_url'] = "file_download.php?file_id=$t_id&type=bug";
-		}
-
-		if( $image_previewed ) {
-			$image_previewed = false;
 		}
 
 		$t_attachment['exists'] = config_get( 'file_upload_method' ) != DISK || file_exists( $t_diskfile );
