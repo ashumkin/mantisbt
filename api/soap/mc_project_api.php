@@ -615,7 +615,7 @@ function mc_project_get_attachments( $p_username, $p_password, $p_project_id ) {
 		$t_attachment['size'] = $row['filesize'];
 		$t_attachment['content_type'] = $row['file_type'];
 		$t_attachment['date_submitted'] = timestamp_to_iso8601( $row['date_added'], false );
-		$t_attachment['download_url'] = mci_get_mantis_path() . 'file_download.php?file_id=' . $row['id'] . '&amp;type=doc';
+		$t_attachment['download_url'] = mci_get_mantis_path() . file_get_download_url( $row['id'], 'doc' );
 		$t_attachment['user_id'] = $row['user_id'];
 		$t_result[] = $t_attachment;
 	}

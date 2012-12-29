@@ -250,7 +250,7 @@ function mci_issue_get_attachments( $p_issue_id ) {
 		$t_attachment['size'] = $t_attachment_row['filesize'];
 		$t_attachment['content_type'] = $t_attachment_row['file_type'];
 		$t_attachment['date_submitted'] = timestamp_to_iso8601( $t_attachment_row['date_added'], false );
-		$t_attachment['download_url'] = mci_get_mantis_path() . 'file_download.php?file_id=' . $t_attachment_row['id'] . '&amp;type=bug';
+		$t_attachment['download_url'] = mci_get_mantis_path() . file_get_download_url( $t_attachment_row['id'] );
 		$t_attachment['user_id'] = $t_attachment_row['user_id'];
 		$t_result[] = $t_attachment;
 	}

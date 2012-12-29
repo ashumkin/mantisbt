@@ -93,7 +93,7 @@
 	</td>
 	<td>
 		<?php
-			$t_href = '<a href="file_download.php?file_id='.$v_id.'&amp;type=doc">';
+			$t_href = '<a href="' . file_get_download_url( $v_id, 'doc') . '">';
 			echo $t_href;
 			print_file_icon( $v_filename );
 			echo '</a>&#160;' . $t_href . file_get_display_name( $v_filename ) . '</a>';

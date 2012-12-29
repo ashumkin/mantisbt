@@ -229,6 +229,9 @@ function file_normalize_attachment_path( $p_diskfile, $p_project_id ) {
 	return $p_diskfile;
 }
 
+function file_get_download_url( $p_file_id, $p_type = 'bug' ) {
+	return "file_download.php?file_id=$p_file_id&amp;type=$p_type";
+}
 # --------------------
 # Gets an array of attachments that are visible to the currently logged in user.
 # Each element of the array contains the following:
@@ -282,7 +285,7 @@ function file_get_visible_attachments( $p_bug_id ) {
 		$t_attachment['can_delete'] = file_can_delete_bug_attachments( $p_bug_id, (int)$t_row['user_id'] );
 
 		if( $t_attachment['can_download'] ) {
-			$t_attachment['download_url'] = "file_download.php?file_id=$t_id&type=bug";
+			$t_attachment['download_url'] = file_get_download_url( $t_id );
 		}
 
 		$t_attachment['exists'] = config_get( 'file_upload_method' ) != DISK || file_exists( $t_diskfile );
