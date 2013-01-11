@@ -190,6 +190,7 @@ $MANTIS_ERROR[ERROR_GENERIC] = 'An error occurred during this action. You may wi
 $MANTIS_ERROR[ERROR_SQL] = 'SQL error detected.';
 $MANTIS_ERROR[ERROR_REPORT] = 'There was an error in your report.';
 $MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'No file specified.';
+$MANTIS_ERROR[ERROR_INCORRECT_FILE_SPECIFIED] = 'Incorrect file specified.';
 $MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'The file type is disallowed.';
 $MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'The directory does not exist. Please check the project settings.';
 $MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'A project with that name already exists.';

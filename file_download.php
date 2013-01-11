@@ -78,6 +78,9 @@
 	}
 	$result = db_query_bound( $query, Array( $c_file_id ) );
 	$row = db_fetch_array( $result );
+	if ( $row === false ) {
+		trigger_error( ERROR_INCORRECT_FILE_SPECIFIED, ERROR );
+	}
 	extract( $row, EXTR_PREFIX_ALL, 'v' );
 
 	if ( $f_type == 'bug' ) {
