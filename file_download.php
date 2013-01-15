@@ -53,32 +53,15 @@
 	}
 
 	$f_file_id = gpc_get_int( 'file_id' );
+	$f_bug_id = gpc_get_int( 'bug_id', 0 );
 	$f_type = gpc_get_string( 'type' );
 
 	$c_file_id = (integer)$f_file_id;
 
-	# we handle the case where the file is attached to a bug
-	# or attached to a project as a project doc.
-	$query = '';
-	switch ( $f_type ) {
-		case 'bug':
-			$t_bug_file_table = db_get_table( 'mantis_bug_file_table' );
-			$query = "SELECT *
-				FROM $t_bug_file_table
-				WHERE id=" . db_param();
-			break;
-		case 'doc':
-			$t_project_file_table = db_get_table( 'mantis_project_file_table' );
-			$query = "SELECT *
-				FROM $t_project_file_table
-				WHERE id=" . db_param();
-			break;
-		default:
-			access_denied();
-	}
-	$result = db_query_bound( $query, Array( $c_file_id ) );
-	$row = db_fetch_array( $result );
-	if ( $row === false ) {
+	$row = event_signal( 'EVENT_FILE_DOWNLOAD_PREPARE', array( $f_type, $c_file_id, $f_bug_id ) );
+	if ( is_null( $row ) ) {
+		access_denied();
+	} elseif ( $row === false ) {
 		trigger_error( ERROR_INCORRECT_FILE_SPECIFIED, ERROR );
 	}
 	extract( $row, EXTR_PREFIX_ALL, 'v' );
@@ -89,21 +72,10 @@
 		$t_project_id = $v_project_id;
 	}
 
-	# Check access rights
-	switch ( $f_type ) {
-		case 'bug':
-			if ( !file_can_download_bug_attachments( $v_bug_id, (int)$v_user_id ) ) {
-				access_denied();
-			}
-			break;
-		case 'doc':
-			# Check if project documentation feature is enabled.
-			if ( OFF == config_get( 'enable_project_documentation' ) ) {
-				access_denied();
-			}
-
-			access_ensure_project_level( config_get( 'view_proj_doc_threshold' ), $v_project_id );
-			break;
+	$t_can_download = event_signal( 'EVENT_FILE_CAN_DOWNLOAD',
+		array( $f_type, $c_file_id, $v_bug_id, (int)$v_user_id, $t_project_id ) );
+	if ( !$t_can_download ) {
+		access_denied();
 	}
 
 	# throw away output buffer contents (and disable it) to protect download
