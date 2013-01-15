@@ -1,0 +1,15 @@
+<?php
+
+# Copyright (c) 2012 Alexey Shumkin
+# Licensed under the GNU license
+
+$s_plugin_MantisCoreFile_ = '';
+$s_plugin_MantisCoreFile_title = 'Вложенные файлы';
+$s_plugin_MantisCoreFile_description = 'Показывает и загружает вложенные файлы.';
+
+$s_plugin_MantisCoreFile_configuration = 'Конфигурация';
+$s_plugin_MantisCoreFile_text_preview_rows = 'Количество строк поля предпросмотра текстовых файлов';
+$s_plugin_MantisCoreFile_text_preview_cols = 'Количество колонок поля предпросмотра текстовых файлов';
+$s_plugin_MantisCoreFile_text_encoding = 'Кодировка текстовых файлов по умолчанию';
+$s_plugin_MantisCoreFile_update_configuration = 'Обновить';
+

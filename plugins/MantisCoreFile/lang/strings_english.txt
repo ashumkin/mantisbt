@@ -1,0 +1,15 @@
+<?php
+
+# Copyright (c) 2012 Alexey Shumkin
+# Licensed under the GNU license
+
+$s_plugin_MantisCoreFile_ = '';
+$s_plugin_MantisCoreFile_title = 'Show file attachments';
+$s_plugin_MantisCoreFile_description = 'Shows and loads bug attachments.';
+
+$s_plugin_MantisCoreFile_configuration = 'Configuration';
+$s_plugin_MantisCoreFile_text_preview_rows = 'Preview text area rows count';
+$s_plugin_MantisCoreFile_text_preview_cols = 'Preview text area columns count';
+$s_plugin_MantisCoreFile_text_encoding = 'Plain text files encoding assumed';
+$s_plugin_MantisCoreFile_update_configuration = 'Update';
+

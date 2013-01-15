@@ -1422,9 +1422,12 @@ function bug_get_attachments( $p_bug_id ) {
 
 	$t_result = array();
 
-	for( $i = 0;$i < $num_files;$i++ ) {
-		$t_result[] = db_fetch_array( $db_result );
+	for( $i = 0; $i < $num_files; $i++ ) {
+		$t_row = db_fetch_array( $db_result );
+		$t_row['source'] = 'file';
+		$t_result[] = $t_row;
 	}
+	list( , $t_result ) = event_signal( 'EVENT_FILE_FILES_GOT', array( $p_bug_id, $t_result ) );
 
 	return $t_result;
 }

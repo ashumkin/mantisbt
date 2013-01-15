@@ -232,6 +232,7 @@ function file_normalize_attachment_path( $p_diskfile, $p_project_id ) {
 function file_get_download_url( $p_file_id, $p_type = 'bug' ) {
 	return "file_download.php?file_id=$p_file_id&amp;type=$p_type";
 }
+
 # --------------------
 # Gets an array of attachments that are visible to the currently logged in user.
 # Each element of the array contains the following:
@@ -258,9 +259,6 @@ function file_get_visible_attachments( $p_bug_id ) {
 
 	$t_attachments = array();
 
-	$t_preview_text_ext = config_get( 'preview_text_extensions' );
-	$t_preview_image_ext = config_get( 'preview_image_extensions' );
-
 	for( $i = 0;$i < $t_attachments_count;$i++ ) {
 		$t_row = $t_attachment_rows[$i];
 
@@ -276,13 +274,18 @@ function file_get_visible_attachments( $p_bug_id ) {
 
 		$t_attachment = array();
 		$t_attachment['id'] = $t_id;
+		$t_attachment['user_id'] = (int)$t_row['user_id'];
+		$t_attachment['bug_id'] = $p_bug_id;
 		$t_attachment['display_name'] = file_get_display_name( $t_filename );
 		$t_attachment['size'] = $t_filesize;
 		$t_attachment['date_added'] = $t_date_added;
 		$t_attachment['diskfile'] = $t_diskfile;
 
 		$t_attachment['can_download'] = file_can_download_bug_attachments( $p_bug_id, (int)$t_row['user_id'] );
-		$t_attachment['can_delete'] = file_can_delete_bug_attachments( $p_bug_id, (int)$t_row['user_id'] );
+		$t_attachment['can_delete'] = $t_row['can_delete'];
+		if ( is_null( $t_attachment['can_delete'] ) ) {
+			$t_attachment['can_delete'] = file_can_delete_bug_attachments( $p_bug_id, (int)$t_row['user_id'] );
+		}
 
 		if( $t_attachment['can_download'] ) {
 			$t_attachment['download_url'] = file_get_download_url( $t_id );
@@ -291,21 +294,14 @@ function file_get_visible_attachments( $p_bug_id ) {
 		$t_attachment['exists'] = config_get( 'file_upload_method' ) != DISK || file_exists( $t_diskfile );
 		$t_attachment['icon'] = file_get_icon_url( $t_attachment['display_name'] );
 
-		$t_attachment['preview'] = false;
+		$t_attachment['preview'] = $t_row['preview'];
 		$t_attachment['type'] = '';
 
 		$t_ext = strtolower( file_get_extension( $t_attachment['display_name'] ) );
 		$t_attachment['alt'] = $t_ext;
+		$t_attachment['source'] = $t_row['source'];
 
-		if ( $t_attachment['exists'] && $t_attachment['can_download'] && $t_filesize != 0 && $t_filesize <= config_get( 'preview_attachments_inline_max_size' ) ) {
-			if ( in_array( $t_ext, $t_preview_text_ext, true ) ) {
-				$t_attachment['preview'] = true;
-				$t_attachment['type'] = 'text';
-			} else if ( in_array( $t_ext, $t_preview_image_ext, true ) ) {
-				$t_attachment['preview'] = true;
-				$t_attachment['type'] = 'image';
-			}
-		}
+		list( $t_attachment ) = event_signal( 'EVENT_FILE_UPDATE_PREVIEW_STATE', array( $t_attachment ) );
 
 		$t_attachments[] = $t_attachment;
 	}
@@ -481,6 +477,7 @@ function file_delete( $p_file_id, $p_table = 'bug' ) {
 		$t_project_id = file_get_field( $p_file_id, 'project_id', $p_table );
 	}
 
+	event_signal( 'EVENT_FILE_DELETE', array( $p_file_id, $p_table, $t_bug_id, $t_project_id ) );
 	if(( DISK == $t_upload_method ) || ( FTP == $t_upload_method ) ) {
 		if( FTP == $t_upload_method ) {
 			$ftp = file_ftp_connect();
