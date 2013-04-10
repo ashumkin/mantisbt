@@ -259,7 +259,30 @@ foreach( $t_related_custom_field_ids as $t_id ) {
 ?>
 
 <?php
-if ( ( $f_new_status >= $t_resolved ) ) {
+if ( $f_new_status == ACKNOWLEDGED ) {
+	if (   version_should_show_product_version( $t_bug->project_id )
+		&& !bug_is_readonly( $f_bug_id )
+		&& access_has_bug_level( config_get( 'update_bug_threshold' ), $f_bug_id )
+	) {
+?>
+<!-- Target Version -->
+<tr <?php echo helper_alternate_class() ?>>
+	<td class="category">
+		<?php echo lang_get( 'target_version' ) ?>
+	</td>
+	<td>
+		<select name="target_version">
+			<?php print_version_option_list( $t_bug->target_version, $t_bug->project_id, VERSION_ALL ) ?>
+		</select>
+	</td>
+</tr>
+<?php
+	}
+}
+?>
+
+<?php
+if ( $f_new_status >= $t_resolved ) {
 	if (   version_should_show_product_version( $t_bug->project_id )
 		&& !bug_is_readonly( $f_bug_id )
 		&& access_has_bug_level( config_get( 'update_bug_threshold' ), $f_bug_id )
