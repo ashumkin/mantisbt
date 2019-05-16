@@ -1820,6 +1820,63 @@
 	 */
 	$g_ldap_simulation_file_path = '';
 
+	/**
+	 * Whether or not to store password, realname and email from LDAP to local database.
+	 *
+	 * @global int $g_ldap_store_to_localdb
+	 */
+	$g_ldap_store_to_localdb = ON;
+
+	/*******************
+	 * Multi LDAP auth *
+	 *******************/
+	/**
+	 * The same as for LDAP but you can configure defferent options for each LDAP profile.
+	 * And additional you can use other auth schemes this way
+	 * To enable multi LDAP scheme set $g_login_method to MIXED
+	 */
+
+	 $g_auth_profiles = array (
+		"0"  => array(
+			"auth_profile_name"			=> "LOCAL",
+			"login_method"				=> MD5
+			),
+		"1"  => array(
+			"auth_profile_name" 		=> "LDAP SERVER 1",
+			"login_method"				=> LDAP,
+			"ldap_server" 				=> "ldap1.example1.com.au",
+			"ldap_port" 				=> "389",
+			"ldap_root_dn"				=> "dc=example1,dc=com,dc=au",
+			"ldap_organization"			=> "",
+			"ldap_uid_field"			=> "sAMAccountName",
+			"ldap_realname_field"		=> "cn",
+			"ldap_bind_dn"				=> "",
+			"ldap_bind_passwd"			=> "",
+			"ldap_email"				=> OFF,
+			"ldap_realname"				=> OFF,
+			"ldap_protocol_version"		=> "3",
+			"ldap_follow_referrals"		=> OFF,
+			"ldap_simulation_file_path"	=> ""
+			),
+		"2"  => array(
+			"auth_profile_name" 		=> "LDAP SERVER 2",
+			"login_method"				=> LDAP,
+			"ldap_server" 				=> "ldap2.example2.com.au",
+			"ldap_port" 				=> "389",
+			"ldap_root_dn"				=> "dc=example1,dc=com,dc=au",
+			"ldap_organization"			=> "",
+			"ldap_uid_field"			=> "sAMAccountName",
+			"ldap_realname_field"		=> "cn",
+			"ldap_bind_dn"				=> "",
+			"ldap_bind_passwd"			=> "",
+			"ldap_email"				=> OFF,
+			"ldap_realname"				=> OFF,
+			"ldap_protocol_version"		=> "3",
+			"ldap_follow_referrals"		=> OFF,
+			"ldap_simulation_file_path"	=> ""
+			)
+	);
+
 	/*******************
 	 * Status Settings *
 	 *******************/
@@ -2565,7 +2622,8 @@
 
 	/**
 	 * login method
-	 * MD5, LDAP, BASIC_AUTH or HTTP_AUTH.
+	 * MD5, LDAP, BASIC_AUTH or HTTP_AUTH
+	 * or MIXED for multiLDAP.
 	 * Note: you may not be able to easily switch encryption methods, so this
 	 * should be carefully chosen at install time. However, MantisBT will attempt
 	 * to "fall back" to older methods if possible.
@@ -2907,6 +2965,15 @@
 	 * @global string $g_bug_list_cookie
 	 */
 	$g_bug_list_cookie		= '%cookie_prefix%_BUG_LIST_COOKIE';
+
+	/**
+	 *
+	 * @global string $g_bug_list_cookie
+	 */
+	$g_logon_to_cookie		= '%cookie_prefix%_LOGON_TO_COOKIE';
+
+
+
 
 	/*****************************
 	 * MantisBT Filter Variables *

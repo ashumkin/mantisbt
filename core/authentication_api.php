@@ -52,6 +52,18 @@ $g_cache_cookie_valid = null;
  */
 $g_cache_current_user_id = null;
 
+
+if (gpc_get_cookie( config_get_global('logon_to_cookie'), '')){
+	$t_cookie_logon_to = gpc_get_cookie( config_get_global('logon_to_cookie'), '');
+
+	if ( MIXED == $g_login_method ){
+		foreach ($g_auth_profiles[$t_cookie_logon_to] as $t_key => $t_value){
+			${'g_'.$t_key} = $t_value;
+		}
+	}
+}
+
+
 /**
  * Check that there is a user logged-in and authenticated
  * If the user's account is disabled they will be logged out
@@ -478,12 +490,17 @@ function auth_set_cookies( $p_user_id, $p_perm_login = false ) {
 
 	$t_cookie_name = config_get( 'string_cookie' );
 
+	$t_cookie_logon_to = config_get( 'logon_to_cookie' );
+	global $f_logon_to;
+
 	if( $p_perm_login ) {
 		# set permanent cookie (1 year)
 		gpc_set_cookie( $t_cookie_name, $t_cookie_string, true );
+		gpc_set_cookie( $t_cookie_logon_to, $g_ldap_server, true );
 	} else {
 		# set temp cookie, cookie dies after browser closes
 		gpc_set_cookie( $t_cookie_name, $t_cookie_string, false );
+		gpc_set_cookie( $t_cookie_logon_to, $f_logon_to, false );
 	}
 }
 
@@ -502,8 +519,10 @@ function auth_clear_cookies() {
 	if( $g_script_login_cookie == null ) {
 		$t_cookie_name = config_get( 'string_cookie' );
 		$t_cookie_path = config_get( 'cookie_path' );
+		$t_cookie_logon_to = config_get( 'logon_to_cookie' );
 
 		gpc_clear_cookie( $t_cookie_name, $t_cookie_path );
+		gpc_clear_cookie( $t_cookie_logon_to, $t_cookie_path );
 		$t_cookies_cleared = true;
 	} else {
 		$g_script_login_cookie = null;

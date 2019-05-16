@@ -196,8 +196,9 @@ function custom_function_default_auth_can_change_password() {
 		CRYPT,
 		CRYPT_FULL_SALT,
 		MD5,
+		MIXED
 	);
-	if( in_array( config_get( 'login_method' ), $t_can_change ) ) {
+	if( ( in_array( config_get( 'login_method' ), $t_can_change ) ) || ( is_page_name( 'verify.php' ) && config_get( 'login_method' ) == MIXED )) {
 		return true;
 	} else {
 		return false;

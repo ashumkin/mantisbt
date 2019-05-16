@@ -31,6 +31,10 @@
 
 	require_once( 'email_api.php' );
 
+	if ( MIXED == $g_login_method) {
+		$g_login_method = MD5;
+	}
+
 	form_security_validate('account_update');
 
 	auth_ensure_user_authenticated();

@@ -30,10 +30,17 @@
 
 	$f_username		= gpc_get_string( 'username', '' );
 	$f_password		= gpc_get_string( 'password', '' );
+	$f_logon_to		= gpc_get_string( 'logon_to', '' );
 	$f_perm_login	= $t_allow_perm_login && gpc_get_bool( 'perm_login' );
 	$t_return		= string_url( string_sanitize_url( gpc_get_string( 'return', config_get( 'default_home_page' ) ) ) );
 	$f_from			= gpc_get_string( 'from', '' );
 	$f_secure_session = gpc_get_bool( 'secure_session', false );
+
+	if ( MIXED == $g_login_method ){
+		foreach ($g_auth_profiles[$f_logon_to] as $t_key => $t_value){
+			${'g_'.$t_key} = $t_value;
+		}
+	}
 
 	$f_username = auth_prepare_username($f_username);
 	$f_password = auth_prepare_password($f_password);
@@ -58,5 +65,4 @@
 			exit;
 		}
 	}
-
 	print_header_redirect( $t_redirect_url );

@@ -140,6 +140,13 @@
 	</td>
 </tr>
 <?php
+if ( MIXED == $g_login_method ){
+	echo '<tr class="row-1"><td class="category" width="25%">Logon to</td><td width="75%"><select name="logon_to">';
+	foreach ($g_auth_profiles as $t_key => $t_value){
+		echo '<option value="'.$t_key.'">'.$t_value["auth_profile_name"].'</option>';
+	}
+	echo '</select></td></tr>';
+}
 	if( ON == config_get( 'allow_permanent_cookie' ) ) {
 ?>
 <tr class="row-1">

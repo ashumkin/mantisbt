@@ -397,7 +397,10 @@ function ldap_authenticate_by_username( $p_username, $p_password ) {
 	# If user authenticated successfully then update the local DB with information
 	# from LDAP.  This will allow us to use the local data after login without
 	# having to go back to LDAP.  This will also allow fallback to DB if LDAP is down.
-	if ( $t_authenticated ) {
+
+	global $g_ldap_store_to_localdb;
+
+	if ( $t_authenticated && $g_ldap_store_to_localdb == ON ) {
 		$t_user_id = user_get_id_by_name( $p_username );
 
 		if ( false !== $t_user_id ) {
